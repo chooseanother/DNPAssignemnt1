@@ -1,18 +1,143 @@
 @page "/addadult"
-<h3>AddAdult</h3>
-@* <EditForm Model="@newTodoItem" OnValidSubmit="@AddNewTodo"> *@
-@*     <DataAnnotationsValidator/> *@
-@*     <ValidationSummary/> *@
-@*     <div class="form-group"> User Id: <br/> *@
-@*         <InputNumber @bind-Value="newTodoItem.UserId"/> *@
-@*     </div> *@
-@*     <div class="form-group"> Title: <br/> *@
-@*         <InputTextArea rows="4" @bind-Value="newTodoItem.Title"/> *@
-@*     </div> *@
-@*     <p class="actions"> *@
-@*         <button class="btn btn-outline-dark" type="submit">Create</button> *@
-@*     </p> *@
-@* </EditForm> *@
+@using Microsoft.AspNetCore.Components
+@using Assignment1.Data
+@using Models
+@inject IFamilyDataService FamilyData
+@inject NavigationManager NavMgr
+
+<h3>Add an Adult</h3>
+@if (!validFamilies.Any())
+{
+    <p>There are no families that has less than 2 adults</p>
+}
+else
+{
+    <EditForm Model="@newAdultItem" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <div class="row">
+            <div class="col-9">
+                <DataAnnotationsValidator/> 
+                <ValidationSummary/>
+                <ul data-role="listview">
+                    <li>
+                        <div style="display: flex;">
+                            <div class="form-group"> Select Family:<br/>
+                                <InputSelect id="family" @bind-Value="familyId">
+                                    @foreach (var family in validFamilies)
+                                    {
+                                        <option>@family.StreetName @family.HouseNumber</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            @if (showError)
+                            {
+                                <div id="familyWarning" style="color:red;">Please select a family</div>
+                            }
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> First Name:<br/>
+                            <InputText @bind-Value="newAdultItem.FirstName"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Last Name:<br/>
+                            <InputText @bind-Value="newAdultItem.LastName"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Hair Color:<br/>
+                            <InputText @bind-Value="newAdultItem.HairColor"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Eye Color:<br/>
+                            <InputText @bind-Value="newAdultItem.EyeColor"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Age:<br/>
+                            <InputNumber @bind-Value="newAdultItem.Age"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Weight<br/>
+                            <InputNumber @bind-Value="newAdultItem.Weight"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Height:<br/>
+                            <InputNumber @bind-Value="newAdultItem.Height"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Sex:<br/>
+                            <InputText @bind-Value="newAdultItem.Sex"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Job Title:<br/>
+                            <InputText @bind-Value="newAdultItem.JobTitle.JobTitle"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group"> Salary:<br/>
+                            <InputNumber @bind-Value="newAdultItem.JobTitle.Salary"/>
+                        </div>
+                    </li>
+                </ul>
+                <p class="actions">
+                    <button class="btn btn-dark" type="submit">Add adult</button>
+                </p>
+            </div>
+        </div>
+    </EditForm>
+}
+
+
+
 @code {
+    private IList<Family> allFamilies;
+    private IList<Family> validFamilies;
     
+    private Adult newAdultItem = new ();
+
+    private string familyId = "";
+    private bool showError = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allFamilies = FamilyData.GetFamilies();
+        validFamilies = allFamilies.Where(f => f.Adults.Count < 2).ToList();
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (familyId.Equals(""))
+        {
+            showError = true;
+        }
+        else
+        {
+            showError = false;
+            var i = familyId.LastIndexOf(" ");
+            var familyToUpdate = FamilyData.Get(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)));
+            familyToUpdate.AddAdult(newAdultItem);
+            FamilyData.Update(familyToUpdate);
+            NavMgr.NavigateTo("/");
+        }
+        
+        
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        if (familyId.Equals(""))
+        {
+            showError = true;
+        }
+        else
+        {
+            showError = false;
+        }
+    }
 }

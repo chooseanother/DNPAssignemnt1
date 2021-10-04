@@ -15,6 +15,13 @@ namespace Models
         public Family()
         {
             Adults = new List<Adult>();
+            Children = new List<Child>();
+            Pets = new List<Pet>();
+        }
+
+        public void AddAdult(Adult adult)
+        {
+            Adults.Add(adult);
         }
     }
 }

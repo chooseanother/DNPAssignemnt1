@@ -1,5 +1,26 @@
 @page "/"
+@using Assignment1.Data
+@using Models
+@inject IFamilyDataService FamilyData
+@inject NavigationManager NavManager
 
-<h1>Hello, world!</h1>
+<div>
+    <h2>All families</h2>
+</div>
 
-Welcome to your new app.
+<TabControl>
+    <TabPage Text="Families">
+        <Families/>
+    </TabPage>
+    <TabPage Text="Adults">
+        <Adults/>
+    </TabPage>
+    <TabPage Text="Children">
+        <Children/>
+    </TabPage>
+</TabControl>
+
+
+@code {
+
+}

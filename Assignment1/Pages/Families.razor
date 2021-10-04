@@ -1,12 +1,9 @@
-@page "/families"
 @using Assignment1.Data
 @using Models
 @inject IFamilyDataService FamilyData
 @inject NavigationManager NavManager
 
-<h1>Families</h1>
-@* <p>Filter by Street Name: <InputTextArea rows="4" @oninput="(arg) => FilterByStreetName(arg)" /></p> *@
-
+<p>Filter by Street Name: <input type="text" @oninput="(arg) => FilterByStreetName(arg)" style="width:150px"/></p>
 
 @if (familiesToShow == null)
 {
@@ -31,8 +28,8 @@ else
             <th>Children</th>
             <th>Pets</th>
             <th>Details</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            @* <th>Edit</th> *@
+            @* <th>Delete</th> *@
         </tr>
         </thead>
         <tbody>
@@ -45,22 +42,22 @@ else
                 <td>@item.Children.Count()</td>
                 <td>@item.Pets.Count()</td>
                 <td>
-                    <button @onclick='() => Show(item.StreetName,item.HouseNumber)'>
-                        <i class="oi oi-trash" style="color:red;"></i>
+                    <button @onclick='() => Show(item.StreetName, item.HouseNumber)'>
+                        <i class="oi oi-info" style="color:black;"></i>
                     </button>
                 </td>
-                <td>
-                    @* <button @onclick='() => RemoveTodo(item.TodoId)'> *@
-                    <button>
-                        <i class="oi oi-trash" style="color:red;"></i>
-                    </button>
-                </td>
-                <td>
-                @* <button @onclick='() => Edit(item.TodoId)'> *@
-                    <button>
-                        <i class="oi oi-pencil" style="color:#1b6ec2;"></i>
-                    </button>
-                </td>
+                @* <td> *@
+                @*     $1$ <button @onclick='() => RemoveTodo(item.TodoId)'> #1# *@
+                @*     <button> *@
+                @*         <i class="oi oi-trash" style="color:red;"></i> *@
+                @*     </button> *@
+                @* </td> *@
+                @* <td> *@
+                @*     $1$ <button @onclick='() => Edit(item.TodoId)'> #1# *@
+                @*     <button> *@
+                @*         <i class="oi oi-pencil" style="color:#1b6ec2;"></i> *@
+                @*     </button> *@
+                @* </td> *@
             </tr>
         }
         </tbody>
@@ -86,6 +83,19 @@ else
 
     private void FilterByStreetName(ChangeEventArgs evtArgs)
     {
-        Console.WriteLine(evtArgs.Value.ToString());
+        filterByStreetName = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterByStreetName = tmp.Equals("") ? null : tmp;
+        }catch(Exception e){}
+        ExecuteFilter();
+    }
+
+    private void ExecuteFilter()
+    {
+        familiesToShow = allFamilies.Where(f => 
+            (filterByStreetName != null && f.StreetName.StartsWith(filterByStreetName) || filterByStreetName == null)
+            ).ToList();
     }
 }

@@ -10,5 +10,6 @@ namespace Assignment1.Data
         void RemoveFamily(string streetName, int houseNumber);
         void Update(Family family);
         Family Get(string streetName, int houseNumber);
+        void AddAdult(string streetName, int houseNumber,Adult adult);
     }
 }

@@ -73,5 +73,24 @@ namespace FileData
         {
             return Families.FirstOrDefault(f => f.StreetName.Equals(streetName) && f.HouseNumber == houseNumber);
         }
+
+        public void AddAdult(string streetName, int houseNumber, Adult adult)
+        {
+
+            var max = Int32.MinValue;
+            foreach (var family in Families)
+            {
+                var tmp = family.Adults.Max(a => a.Id);
+                if (tmp > max)
+                {
+                    max = tmp;
+                }
+            }
+
+            adult.Id = max + 1;
+            var familyToUpdate = Get(streetName, houseNumber);
+            familyToUpdate.Adults.Add(adult);
+            Update(familyToUpdate);
+        }
     }
 }

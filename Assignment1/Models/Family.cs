@@ -21,6 +21,7 @@ namespace Models
 
         public void AddAdult(Adult adult)
         {
+            
             Adults.Add(adult);
         }
     }

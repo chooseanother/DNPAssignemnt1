@@ -1,4 +1,4 @@
-@using Assignment1.Data
+@using Data
 @using Models
 @inject IFamilyDataService FamilyData
 @inject NavigationManager NavManager
@@ -14,7 +14,7 @@
 else if (!familiesToShow.Any())
 {
     <p>
-        <em>No Family items exist. Please add some.</em>
+        <em>No Family items exists</em>
     </p>
 }
 else
@@ -95,7 +95,7 @@ else
     private void ExecuteFilter()
     {
         familiesToShow = allFamilies.Where(f => 
-            (filterByStreetName != null && f.StreetName.StartsWith(filterByStreetName) || filterByStreetName == null)
+            (filterByStreetName != null && f.StreetName.IndexOf(filterByStreetName, StringComparison.OrdinalIgnoreCase) >= 0 || filterByStreetName == null)
             ).ToList();
     }
 }

@@ -3,7 +3,7 @@
     @foreach (TabPage tabPage in Pages)
     {
       <button type="button"
-        class="btn @GetButtonClass(tabPage)"
+        class="btn  @GetButtonClass(tabPage)"
         @onclick=@( () => ActivatePage(tabPage) )>
         @tabPage.Text
       </button>
@@ -29,7 +29,7 @@
   
   string GetButtonClass(TabPage page)
   {
-    return page == ActivePage ? "btn-primary" : "btn-secondary";
+    return page == ActivePage ? "btn-dark" : "btn-light";
   }
   void ActivatePage(TabPage page)
   {

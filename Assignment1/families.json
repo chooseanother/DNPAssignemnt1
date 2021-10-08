@@ -17,21 +17,6 @@
         "Weight": 39.8,
         "Height": 174,
         "Sex": "F"
-      },
-      {
-        "JobTitle": {
-          "JobTitle": "JSE",
-          "Salary": 70000
-        },
-        "Id": 0,
-        "FirstName": "Kim",
-        "LastName": "Tranberg",
-        "HairColor": null,
-        "EyeColor": null,
-        "Age": 30,
-        "Weight": 0,
-        "Height": 0,
-        "Sex": null
       }
     ],
     "Children": [],

@@ -1,17 +1,14 @@
 [
   {
     "UserName": "Admin",
-    "SecurityLevel": 5,
     "Password": "123456"
   },
   {
     "UserName": "Troels",
-    "SecurityLevel": 3,
     "Password": "123456"
   },
   {
     "UserName": "Kim",
-    "SecurityLevel": 1,
     "Password": "123456"
   }
 ]

@@ -57,17 +57,14 @@ namespace Assignment1.Data
             users = new[] {
                 new User {
                     Password = "123456",
-                    SecurityLevel = 5,
                     UserName = "Admin"
                 },
                 new User {
                     Password = "123456",
-                    SecurityLevel = 3,
                     UserName = "Troels"
                 },
                 new User {
                     Password = "123456",
-                    SecurityLevel = 1,
                     UserName = "Kim"
                 }
             }.ToList();

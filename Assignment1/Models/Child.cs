@@ -6,5 +6,11 @@ namespace Models
     {
         public List<Interest> Interests { get; set; }
         public List<Pet> Pets { get; set; }
+
+        public Child()
+        {
+            Interests = new List<Interest>();
+            Pets = new List<Pet>();
+        }
     }
 }

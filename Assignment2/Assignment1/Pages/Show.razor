@@ -1,0 +1,43 @@
+@page "/show/{StreetName}/{HouseNumber:int}"
+@using Models
+@using Assignment1.Data
+@inject IFamilyDataService FamilyData
+@inject NavigationManager NavManager
+
+<div>
+    <h3>Family living at: @familyToShow.StreetName @familyToShow.HouseNumber</h3>
+</div>
+
+<TabControl>
+    <TabPage Text="Adults">
+        <Adults FamilyToShow="@FamilyAddress"/>
+    </TabPage>
+    <TabPage Text="Children">
+        <Children FamilyToShow="@FamilyAddress"/>
+    </TabPage>
+    <TabPage Text="Pets">
+        <Pets FamilyToShow="@FamilyAddress"/>
+    </TabPage>
+</TabControl>
+
+
+@code {
+
+    [Parameter]
+    public string StreetName { get; set; }
+
+    [Parameter]
+    public int HouseNumber { get; set; }
+
+    public string FamilyAddress { get; set; }
+
+    private Family familyToShow;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        familyToShow = FamilyData.Get(StreetName, HouseNumber);
+        FamilyAddress = $"{StreetName},{HouseNumber}";
+    }
+
+}

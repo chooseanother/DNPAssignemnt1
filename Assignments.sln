@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assignment1", "Assignment1\Assignment1.csproj", "{8A3FB3A0-6A40-40B2-B095-4636210B4B0C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assignment2", "Assignment2", "{C92FA976-0878-418C-AFA0-BC480BE71B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyWebAPI", "Assignment2\FamilyWebAPI\FamilyWebAPI.csproj", "{5D497C21-4988-44CA-941B-C209EF72091F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyClient", "Assignment2\FamilyClient\FamilyClient.csproj", "{0749F1F6-B608-48CF-B4B6-894EC96BF28C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{8A3FB3A0-6A40-40B2-B095-4636210B4B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A3FB3A0-6A40-40B2-B095-4636210B4B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A3FB3A0-6A40-40B2-B095-4636210B4B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D497C21-4988-44CA-941B-C209EF72091F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D497C21-4988-44CA-941B-C209EF72091F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D497C21-4988-44CA-941B-C209EF72091F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D497C21-4988-44CA-941B-C209EF72091F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D497C21-4988-44CA-941B-C209EF72091F} = {C92FA976-0878-418C-AFA0-BC480BE71B84}
+		{0749F1F6-B608-48CF-B4B6-894EC96BF28C} = {C92FA976-0878-418C-AFA0-BC480BE71B84}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,101 @@
+@using Data
+@using Models
+@inject IFamilyDataService FamilyData
+@inject NavigationManager NavManager
+
+<p>Filter by Street Name: <input type="text" @oninput="(arg) => FilterByStreetName(arg)" style="width:150px"/></p>
+
+@if (familiesToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!familiesToShow.Any())
+{
+    <p>
+        <em>No Family items exists</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Street Name</th>
+            <th>House Number</th>
+            <th>Adults</th>
+            <th>Children</th>
+            <th>Pets</th>
+            <th>Details</th>
+            @* <th>Edit</th> *@
+            @* <th>Delete</th> *@
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in familiesToShow)
+        {
+            <tr>
+                <td>@item.StreetName</td>
+                <td>@item.HouseNumber</td>
+                <td>@item.Adults.Count()</td>
+                <td>@item.Children.Count()</td>
+                <td>@item.Pets.Count()</td>
+                <td>
+                    <button @onclick='() => Show(item.StreetName, item.HouseNumber)'>
+                        <i class="oi oi-info" style="color:black;"></i>
+                    </button>
+                </td>
+                @* <td> *@
+                @*     $1$ <button @onclick='() => RemoveTodo(item.TodoId)'> #1# *@
+                @*     <button> *@
+                @*         <i class="oi oi-trash" style="color:red;"></i> *@
+                @*     </button> *@
+                @* </td> *@
+                @* <td> *@
+                @*     $1$ <button @onclick='() => Edit(item.TodoId)'> #1# *@
+                @*     <button> *@
+                @*         <i class="oi oi-pencil" style="color:#1b6ec2;"></i> *@
+                @*     </button> *@
+                @* </td> *@
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Family> familiesToShow;
+    private IList<Family> allFamilies;
+
+    private string? filterByStreetName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allFamilies = FamilyData.GetFamilies();
+        familiesToShow = allFamilies;
+    }
+
+    private void Show(string streetName, int houseNumber)
+    {
+        NavManager.NavigateTo($"show/{streetName}/{houseNumber}");
+    }
+
+    private void FilterByStreetName(ChangeEventArgs evtArgs)
+    {
+        filterByStreetName = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterByStreetName = tmp.Equals("") ? null : tmp;
+        }catch(Exception e){}
+        ExecuteFilter();
+    }
+
+    private void ExecuteFilter()
+    {
+        familiesToShow = allFamilies.Where(f => 
+            (filterByStreetName != null && f.StreetName.IndexOf(filterByStreetName, StringComparison.OrdinalIgnoreCase) >= 0 || filterByStreetName == null)
+            ).ToList();
+    }
+}

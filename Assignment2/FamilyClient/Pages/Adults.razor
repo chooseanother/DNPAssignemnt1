@@ -1,0 +1,290 @@
+@using Models
+@using Data
+@inject IFamilyDataService FamilyData
+@inject NavigationManager NavManager
+
+@if (showFilters)
+{
+    <div class="filter-box">
+        <p>Filter by First Name: <input type="text" @oninput="(arg) => FilterFirstName(arg)" style="width:150px"/></p>
+        <p>Filter by Last Name: <input type="text" @oninput="(arg) => FilterLastName(arg)" style="width:150px"/></p>
+        <p>Filter by Hair Color: <input type="text" @oninput="(arg) => FilterHairColor(arg)" style="width:150px"/></p>
+        <p>Filter by Eye Color: <input type="text" @oninput="(arg) => FilterEyeColor(arg)" style="width:150px"/></p>
+        <p>Filter by Age Min: <input type="text" @oninput="(arg) => FilterAge(arg)" style="width:50px"/> Max: <input type="text" @oninput="(arg) => FilterMaxAge(arg)" style="width:50px"/></p>
+        <p>Filter by Weight Min: <input type="text" @oninput="(arg) => FilterWeight(arg)" style="width:50px"/> Max: <input type="text" @oninput="(arg) => FilterMaxWeight(arg)" style="width:50px"/></p>
+        <p>Filter by Height Min: <input type="text" @oninput="(arg) => FilterHeight(arg)" style="width:50px"/> Max: <input type="text" @oninput="(arg) => FilterMaxHeight(arg)" style="width:50px"/></p>
+        <p>Filter by Sex: <input type="text" @oninput="(arg) => FilterSex(arg)" style="width:150px"/></p>
+        <P>Filter by Job Title: <input type="text" @oninput="(arg) => FilterJobTitle(arg)" style="width:150px"/></p>
+        <P>Filter by Salary Min: <input type="text" @oninput="(arg) => FilterSalary(arg)" style="width:100px"/> Max: <input type="text" @oninput="(arg) => FilterMaxSalary(arg)" style="width:100px"/></p>
+    </div>
+}
+@if (adultsToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!adultsToShow.Any())
+{
+    <p>
+        <em>No Adult items exists</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hair Color</th>
+            <th>Eye Color</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Sex</th>
+            <th>Job</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in adultsToShow)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.HairColor</td>
+                <td>@item.EyeColor</td>
+                <td>@item.Age</td>
+                <td>@item.Weight</td>
+                <td>@item.Height</td>
+                <td>@item.Sex</td>
+                <td>@item.JobTitle.JobTitle</td>
+                <td>@item.JobTitle.Salary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string? FamilyToShow { get; set; }
+    
+    private IList<Adult> allAdults;
+    private IList<Adult> adultsToShow;
+
+    private string? filterFirstName;
+    private string? filterLastName;
+    private string? filterHairColor;
+    private string? filterEyeColor;
+    private int? filterAge;
+    private int? filterAgeMax;
+    private float? filterWeight;
+    private float? filterWeightMax;
+    private int? filterHeight;
+    private int? filterHeightMax;
+    private string? filterSex;
+    private string? filterJobTitle;
+    private int? filterSalary;
+    private int? filterSalaryMax;
+
+    private bool showFilters;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        allAdults = new List<Adult>();
+        if (FamilyToShow == null)
+        {
+            showFilters = true;
+            foreach (var family in FamilyData.GetFamilies())
+            {
+                if (family.Adults.Any())
+                    ((List<Adult>)allAdults).AddRange(family.Adults);
+            }
+        }
+        else
+        {
+            showFilters = false;
+            var streetInfo = FamilyToShow.Split(",");
+            allAdults = FamilyData.Get(streetInfo[0], Int32.Parse(streetInfo[1])).Adults;
+        }
+        adultsToShow = allAdults;
+    }
+
+    private void FilterFirstName(ChangeEventArgs evtArgs)
+    {
+        filterFirstName = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterFirstName = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterLastName(ChangeEventArgs evtArgs)
+    {
+        filterLastName = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterLastName = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterHairColor(ChangeEventArgs evtArgs)
+    {
+        filterHairColor = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterHairColor = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterEyeColor(ChangeEventArgs evtArgs)
+    {
+        filterEyeColor = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterEyeColor = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterAge(ChangeEventArgs evtArgs)
+    {
+        filterAge = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterAge = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterMaxAge(ChangeEventArgs evtArgs)
+    {
+        filterAgeMax = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterAgeMax = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterWeight(ChangeEventArgs evtArgs)
+    {
+        filterWeight = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterWeight = tmp.Equals("") ? null : float.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterMaxWeight(ChangeEventArgs evtArgs)
+    {
+        filterWeightMax = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterWeightMax = tmp.Equals("") ? null : float.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterHeight(ChangeEventArgs evtArgs)
+    {
+        filterHeight = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterHeight = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterMaxHeight(ChangeEventArgs evtArgs)
+    {
+        filterHeightMax = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterHeightMax = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterSex(ChangeEventArgs evtArgs)
+    {
+        filterSex = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterSex = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterJobTitle(ChangeEventArgs evtArgs)
+    {
+        filterJobTitle = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterJobTitle = tmp.Equals("") ? null : tmp;
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterSalary(ChangeEventArgs evtArgs)
+    {
+        filterSalary = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterSalary = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void FilterMaxSalary(ChangeEventArgs evtArgs)
+    {
+        filterSalaryMax = null;
+        try
+        {
+            var tmp = evtArgs.Value.ToString();
+            filterSalaryMax = tmp.Equals("") ? null : Int32.Parse(tmp);
+        } catch (Exception e) {}
+        ExecuteFilter();
+    }
+    
+    private void ExecuteFilter()
+    {
+        adultsToShow = allAdults.Where(a => 
+            (filterFirstName != null && a.FirstName.IndexOf(filterFirstName, StringComparison.OrdinalIgnoreCase) >= 0 || filterFirstName == null) && 
+            (filterLastName != null && a.LastName.IndexOf(filterLastName, StringComparison.OrdinalIgnoreCase) >= 0 || filterLastName == null) && 
+            (filterHairColor != null && a.HairColor.IndexOf(filterHairColor, StringComparison.OrdinalIgnoreCase) >= 0 || filterHairColor == null) && 
+            (filterEyeColor != null && a.EyeColor.IndexOf(filterEyeColor, StringComparison.OrdinalIgnoreCase) >= 0 || filterEyeColor == null) && 
+            (filterAge != null && a.Age >= filterAge || filterAge == null) && 
+            (filterAgeMax != null && a.Age <= filterAgeMax || filterAgeMax == null) && 
+            (filterWeight != null && a.Weight >= filterWeight || filterWeight == null) && 
+            (filterWeightMax != null && a.Weight <= filterWeightMax || filterWeightMax == null) && 
+            (filterHeight != null && a.Height >= filterHeight || filterHeight == null) && 
+            (filterHeightMax != null && a.Height <= filterHeightMax || filterHeightMax == null) && 
+            (filterSex != null && a.Sex.Equals(filterSex) || filterSex == null) && 
+            (filterJobTitle != null && a.JobTitle.JobTitle.IndexOf(filterJobTitle, StringComparison.OrdinalIgnoreCase) >= 0 || filterJobTitle == null) && 
+            (filterSalary != null && a.JobTitle.Salary >= filterSalary || filterSalary == null)&& 
+            (filterSalaryMax != null && a.JobTitle.Salary <= filterSalaryMax || filterSalaryMax == null)
+            ).ToList();
+        
+    }
+}

@@ -1,0 +1,86 @@
+@using Models
+@using Data
+@inject IFamilyDataService FamilyData
+
+@if (childrenToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!childrenToShow.Any())
+{
+    <p>
+        <em>No Children items exists</em>
+    </p>
+}
+else
+{
+    <h2>Children</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hair Color</th>
+            <th>Eye Color</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Sex</th>
+            <th>Interest</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in childrenToShow)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.HairColor</td>
+                <td>@item.EyeColor</td>
+                <td>@item.Age</td>
+                <td>@item.Weight</td>
+                <td>@item.Height</td>
+                <td>@item.Sex</td>
+                @foreach (var interest in item.Interests)
+                {
+                    <tr>
+                        <td>@interest.Type</td>
+                        <td>@interest.Description</td>
+                    </tr>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [Parameter]
+    public string? FamilyToShow { get; set; }
+
+    private IList<Child> allChildren;
+    private IList<Child> childrenToShow;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allChildren = new List<Child>();
+        if (FamilyToShow == null)
+        {
+            foreach (var family in FamilyData.GetFamilies())
+            {
+                if (family.Children.Any())
+                    ((List<Child>) allChildren).AddRange(family.Children);
+            }
+        }
+        else
+        {
+            var streetInfo = FamilyToShow.Split(",");
+            allChildren = FamilyData.Get(streetInfo[0], Int32.Parse(streetInfo[1])).Children;
+        }
+        childrenToShow = allChildren;
+    }
+
+}

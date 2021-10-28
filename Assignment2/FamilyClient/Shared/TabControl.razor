@@ -17,7 +17,7 @@
   public RenderFragment ChildContent { get; set; }
   
   public TabPage ActivePage { get; set; }
-  List<TabPage> Pages = new List<TabPage>();
+  List<TabPage> Pages = new ();
 
   internal void AddPage(TabPage tabPage)
   {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Data;
 using Models;
 
@@ -27,7 +28,7 @@ namespace Data
             }
         }
 
-        public void SaveChanges()
+        private void SaveChanges()
         {
             // storing families
             string jsonFamilies = JsonSerializer.Serialize(Families, new JsonSerializerOptions
@@ -40,25 +41,26 @@ namespace Data
             }
         }
 
-        public IList<Family> GetFamilies()
+        public async Task<IList<Family>> GetFamiliesAsync()
         {
             return new List<Family>(Families);
         }
 
-        public void AddFamily(Family family)
-        {
-            Families.Add(family);
-            SaveChanges();
-        }
+        // public async Task<Family> AddFamilyAsync(Family family)
+        // {
+        //     Families.Add(family);
+        //     SaveChanges();
+        //     return family;
+        // }
+        //
+        // public void RemoveFamily(string streetName, int houseNumber)
+        // {
+        //     var toRemove = Families.First(f => f.StreetName.Equals(streetName) && f.HouseNumber == houseNumber);
+        //     Families.Remove(toRemove);
+        //     SaveChanges();
+        // }
 
-        public void RemoveFamily(string streetName, int houseNumber)
-        {
-            var toRemove = Families.First(f => f.StreetName.Equals(streetName) && f.HouseNumber == houseNumber);
-            Families.Remove(toRemove);
-            SaveChanges();
-        }
-
-        public void Update(Family family)
+        private void Update(Family family)
         {
             var toUpdate = Families.First(f => f.StreetName.Equals(family.StreetName) && f.HouseNumber == family.HouseNumber);
             toUpdate.Adults = family.Adults;
@@ -68,14 +70,31 @@ namespace Data
             toUpdate.StreetName = family.StreetName;
             SaveChanges();
         }
-
-        public Family Get(string streetName, int houseNumber)
+        
+        private Family Get(string streetName, int houseNumber)
         {
             return Families.FirstOrDefault(f => f.StreetName.Equals(streetName) && f.HouseNumber == houseNumber);
         }
 
-        public void AddAdult(string streetName, int houseNumber, Adult adult)
+        public async Task<Family> GetFamilyAsync(string streetName, int? houseNumber)
         {
+            
+            if (houseNumber == null)
+            {
+                throw new Exception("House number can't be null");
+            }
+            var tmp = houseNumber.Value;
+
+            return Get(streetName,tmp);
+        }
+
+        public async Task<Adult> AddAdultAsync(string streetName, int? houseNumber, Adult adult)
+        {
+            if (houseNumber == null)
+            {
+                throw new Exception("House number can't be null");
+            }
+            var localHouseNumber = houseNumber.Value;
 
             var max = Int32.MinValue;
             foreach (var family in Families)
@@ -88,9 +107,33 @@ namespace Data
             }
 
             adult.Id = max + 1;
-            var familyToUpdate = Get(streetName, houseNumber);
+            var familyToUpdate = Get(streetName, localHouseNumber);
             familyToUpdate.Adults.Add(adult);
             Update(familyToUpdate);
+
+            return adult;
+        }
+
+        public async Task<int> RemoveAdultAsync(int id)
+        {
+            Adult toRemove = null;
+            foreach (var family in Families)
+            {
+                if (family.Adults.Any())
+                {
+                    try
+                    {
+                        toRemove = family.Adults.First(a => a.Id == id);
+                        family.Adults.Remove(toRemove);
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"This is stupid. Adult with id: {id} not in this family");
+                    }
+                }
+            }
+
+            return toRemove.Id;
         }
     }
 }

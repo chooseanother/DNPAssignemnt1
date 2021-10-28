@@ -69,7 +69,7 @@ else
         allChildren = new List<Child>();
         if (FamilyToShow == null)
         {
-            foreach (var family in FamilyData.GetFamilies())
+            foreach (var family in await FamilyData.GetFamiliesAsync())
             {
                 if (family.Children.Any())
                     ((List<Child>) allChildren).AddRange(family.Children);
@@ -78,7 +78,7 @@ else
         else
         {
             var streetInfo = FamilyToShow.Split(",");
-            allChildren = FamilyData.Get(streetInfo[0], Int32.Parse(streetInfo[1])).Children;
+            allChildren = (await FamilyData.GetAsync(streetInfo[0], Int32.Parse(streetInfo[1]))).Children;
         }
         childrenToShow = allChildren;
     }

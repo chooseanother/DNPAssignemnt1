@@ -30,8 +30,8 @@ namespace FamilyClient
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IFamilyDataService, FamilyDataPersistence>();
-            services.AddScoped<IUserService, UserServicePersistence>();
+            services.AddSingleton<IFamilyDataService, FamilyWebService>();
+            services.AddScoped<IUserService, UserWebService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             
             services.AddAuthorization(options => {

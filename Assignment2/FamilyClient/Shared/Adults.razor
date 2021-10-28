@@ -45,6 +45,11 @@ else
             <th>Sex</th>
             <th>Job</th>
             <th>Salary</th>
+            <AuthorizeView>
+                <Authorized>
+                    <th>Delete</th>
+                </Authorized>
+            </AuthorizeView>
         </tr>
         </thead>
         <tbody>
@@ -61,6 +66,15 @@ else
                 <td>@item.Sex</td>
                 <td>@item.JobTitle.JobTitle</td>
                 <td>@item.JobTitle.Salary</td>
+                <AuthorizeView>
+                    <Authorized>
+                        <td>
+                            <button @onclick='() => RemoveAdult(item.Id)'>
+                                <i class="oi oi-trash" style="color:red;"></i>
+                            </button>
+                        </td>
+                    </Authorized>
+                </AuthorizeView>
             </tr>
         }
         </tbody>
@@ -98,7 +112,7 @@ else
         if (FamilyToShow == null)
         {
             showFilters = true;
-            foreach (var family in FamilyData.GetFamilies())
+            foreach (var family in await FamilyData.GetFamiliesAsync())
             {
                 if (family.Adults.Any())
                     ((List<Adult>)allAdults).AddRange(family.Adults);
@@ -108,9 +122,17 @@ else
         {
             showFilters = false;
             var streetInfo = FamilyToShow.Split(",");
-            allAdults = FamilyData.Get(streetInfo[0], Int32.Parse(streetInfo[1])).Adults;
+            allAdults = (await FamilyData.GetAsync(streetInfo[0], Int32.Parse(streetInfo[1]))).Adults;
         }
         adultsToShow = allAdults;
+    }
+
+    private async Task RemoveAdult(int adultId)
+    {
+        var adultToRemove = allAdults.First(a => a.Id == adultId);
+        await FamilyData.RemoveAdultAsync(adultId);
+        allAdults.Remove(adultToRemove);
+        adultsToShow.Remove(adultToRemove);
     }
 
     private void FilterFirstName(ChangeEventArgs evtArgs)

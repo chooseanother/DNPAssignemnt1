@@ -50,7 +50,7 @@ else
         allPets = new List<Pet>();
         if (FamilyToShow == null)
         {
-            foreach (var family in FamilyData.GetFamilies())
+            foreach (var family in await FamilyData.GetFamiliesAsync())
             {
                 if (family.Children.Any())
                     ((List<Pet>)allPets).AddRange(family.Pets);
@@ -59,7 +59,7 @@ else
         else
         {
             var streetInfo = FamilyToShow.Split(",");
-            allPets = FamilyData.Get(streetInfo[0], Int32.Parse(streetInfo[1])).Pets;
+            allPets = (await FamilyData.GetAsync(streetInfo[0], Int32.Parse(streetInfo[1]))).Pets;
         }
         petsToShow = allPets;
     }

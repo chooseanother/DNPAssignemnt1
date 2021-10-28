@@ -4,9 +4,18 @@
 @inject IFamilyDataService FamilyData
 @inject NavigationManager NavManager
 
-<div>
-    <h3>Family living at: @familyToShow.StreetName @familyToShow.HouseNumber</h3>
-</div>
+@if (familyToShow == null)
+{
+    <div>
+        Loading
+    </div>
+}
+else
+{
+    <div>
+        <h3>Family living at: @familyToShow.StreetName @familyToShow.HouseNumber</h3>
+    </div>
+}
 
 <TabControl>
     <TabPage Text="Adults">
@@ -36,7 +45,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        familyToShow = FamilyData.Get(StreetName, HouseNumber);
+        familyToShow = await FamilyData.GetAsync(StreetName, HouseNumber);
         FamilyAddress = $"{StreetName},{HouseNumber}";
     }
 

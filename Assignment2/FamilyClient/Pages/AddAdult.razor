@@ -6,13 +6,19 @@
 @inject NavigationManager NavMgr
 
 <h3>Add an Adult</h3>
-@if (!validFamilies.Any())
+@if (validFamilies == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!validFamilies.Any())
 {
     <p>There are no families that has less than 2 adults</p>
 }
 else
 {
-    <EditForm Model="@newAdultItem" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+<EditForm Model="@newAdultItem" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
         <div class="row">
             <div class="col-9">
                 <DataAnnotationsValidator/>
@@ -100,11 +106,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        allFamilies = FamilyData.GetFamilies();
+        allFamilies = await FamilyData.GetFamiliesAsync();
         validFamilies = allFamilies.Where(f => f.Adults.Count < 2).ToList();
+        Console.WriteLine(validFamilies.Any());
     }
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
         if (familyId.Equals(""))
         {
@@ -114,7 +121,7 @@ else
         {
             showError = false;
             var i = familyId.LastIndexOf(" ");
-            FamilyData.AddAdult(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)),newAdultItem);
+            await FamilyData.AddAdultAsync(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)),newAdultItem);
             // var familyToUpdate = FamilyData.Get(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)));
             // familyToUpdate.AddAdult(newAdultItem);
             // FamilyData.Update(familyToUpdate);

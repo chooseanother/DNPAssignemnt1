@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Data;
 using Models;
 
@@ -10,13 +11,13 @@ namespace Data
 {
     public class UserServicePersistence : IUserService
     {
-        public IList<User> users { get; private set; }
+        public IList<User> Users { get; private set; }
         
         private readonly string usersFile = "users.json";
 
         public UserServicePersistence()
         {
-            users = File.Exists(usersFile) ? ReadData<User>(usersFile) : InitUsers();
+            Users = File.Exists(usersFile) ? ReadData<User>(usersFile) : InitUsers();
         }
         
         private IList<T> ReadData<T>(string s)
@@ -27,9 +28,9 @@ namespace Data
             }
         }
         
-        public void SaveChanges()
+        private void SaveChanges()
         {
-            string jsonFamilies = JsonSerializer.Serialize(users, new JsonSerializerOptions
+            string jsonFamilies = JsonSerializer.Serialize(Users, new JsonSerializerOptions
             {
                 WriteIndented = true
             });
@@ -39,8 +40,8 @@ namespace Data
             }
         }
         
-        public User ValidateUser(string userName, string password) {
-            User first = users.FirstOrDefault(user => user.UserName.Equals(userName));
+        public async Task<User> ValidateUserAsync(string userName, string password) {
+            User first = Users.FirstOrDefault(user => user.UserName.Equals(userName));
             if (first == null) {
                 throw new Exception("User not found");
             }
@@ -54,7 +55,7 @@ namespace Data
 
         private IList<User> InitUsers()
         {
-            users = new[] {
+            Users = new[] {
                 new User {
                     Password = "123456",
                     UserName = "Admin"
@@ -69,7 +70,7 @@ namespace Data
                 }
             }.ToList();
             SaveChanges();
-            return users;
+            return Users;
         }
     }
 }

@@ -18,7 +18,7 @@ else if (!validFamilies.Any())
 }
 else
 {
-<EditForm Model="@newAdultItem" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <EditForm Model="@newAdultItem" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
         <div class="row">
             <div class="col-9">
                 <DataAnnotationsValidator/>
@@ -121,10 +121,10 @@ else
         {
             showError = false;
             var i = familyId.LastIndexOf(" ");
-            await FamilyData.AddAdultAsync(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)),newAdultItem);
-            // var familyToUpdate = FamilyData.Get(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)));
-            // familyToUpdate.AddAdult(newAdultItem);
-            // FamilyData.Update(familyToUpdate);
+            await FamilyData.AddAdultAsync(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)), newAdultItem);
+    // var familyToUpdate = FamilyData.Get(familyId.Substring(0, i), Int32.Parse(familyId.Substring(i)));
+    // familyToUpdate.AddAdult(newAdultItem);
+    // FamilyData.Update(familyToUpdate);
             NavMgr.NavigateTo("/");
         }
     }

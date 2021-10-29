@@ -66,9 +66,9 @@ namespace Data
             clientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             using HttpClient client = new HttpClient(clientHandler);
 
-            string todoAsJson = JsonSerializer.Serialize(adult);
+            string adultAsJson = JsonSerializer.Serialize(adult);
 
-            StringContent content = new StringContent(todoAsJson, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(adultAsJson, Encoding.UTF8, "application/json");
 
             HttpResponseMessage responseMessage = await client.PostAsync($"https://localhost:5003/Families/adult?streetName={streetName}&houseNumber={houseNumber}",content);
             if (!responseMessage.IsSuccessStatusCode)

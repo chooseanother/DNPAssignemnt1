@@ -10,8 +10,8 @@ namespace Data
         // Task<Family> AddFamilyAsync(Family family);
         // void RemoveFamily(string streetName, int houseNumber);
         // void Update(Family family);
-        Task<Family> GetFamilyAsync(string streetName, int? houseNumber);
-        Task<Adult> AddAdultAsync(string streetName, int? houseNumber,Adult adult);
+        Task<Family> GetFamilyAsync(string streetName, int houseNumber);
+        Task<Adult> AddAdultAsync(string streetName, int houseNumber,Adult adult);
         Task<int> RemoveAdultAsync(int id);
     }
 }

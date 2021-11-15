@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyWebAPI.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20211115095754_InitialCreate")]
+    [Migration("20211115132823_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,21 @@ namespace FamilyWebAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.12");
+
+            modelBuilder.Entity("ChildInterest", b =>
+                {
+                    b.Property<int>("ChildrenId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("InterestsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ChildrenId", "InterestsId");
+
+                    b.HasIndex("InterestsId");
+
+                    b.ToTable("ChildInterest");
+                });
 
             modelBuilder.Entity("Models.Adult", b =>
                 {
@@ -138,9 +153,6 @@ namespace FamilyWebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ChildId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -148,8 +160,6 @@ namespace FamilyWebAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChildId");
 
                     b.ToTable("Interests");
                 });
@@ -161,7 +171,6 @@ namespace FamilyWebAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("JobTitle")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Salary")
@@ -205,6 +214,21 @@ namespace FamilyWebAPI.Migrations
                     b.ToTable("Pets");
                 });
 
+            modelBuilder.Entity("ChildInterest", b =>
+                {
+                    b.HasOne("Models.Child", null)
+                        .WithMany()
+                        .HasForeignKey("ChildrenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Interest", null)
+                        .WithMany()
+                        .HasForeignKey("InterestsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Models.Adult", b =>
                 {
                     b.HasOne("Models.Job", "JobTitle")
@@ -225,13 +249,6 @@ namespace FamilyWebAPI.Migrations
                         .HasForeignKey("FamilyStreetName", "FamilyHouseNumber");
                 });
 
-            modelBuilder.Entity("Models.Interest", b =>
-                {
-                    b.HasOne("Models.Child", null)
-                        .WithMany("Interests")
-                        .HasForeignKey("ChildId");
-                });
-
             modelBuilder.Entity("Models.Pet", b =>
                 {
                     b.HasOne("Models.Child", null)
@@ -245,8 +262,6 @@ namespace FamilyWebAPI.Migrations
 
             modelBuilder.Entity("Models.Child", b =>
                 {
-                    b.Navigation("Interests");
-
                     b.Navigation("Pets");
                 });
 

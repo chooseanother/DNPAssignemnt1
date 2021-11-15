@@ -76,26 +76,13 @@ namespace Data
             return Families.FirstOrDefault(f => f.StreetName.Equals(streetName) && f.HouseNumber == houseNumber);
         }
 
-        public async Task<Family> GetFamilyAsync(string streetName, int? houseNumber)
+        public async Task<Family> GetFamilyAsync(string streetName, int houseNumber)
         {
-            
-            if (houseNumber == null)
-            {
-                throw new Exception("House number can't be null");
-            }
-            var tmp = houseNumber.Value;
-
-            return Get(streetName,tmp);
+            return Get(streetName,houseNumber);
         }
 
-        public async Task<Adult> AddAdultAsync(string streetName, int? houseNumber, Adult adult)
+        public async Task<Adult> AddAdultAsync(string streetName, int houseNumber, Adult adult)
         {
-            if (houseNumber == null)
-            {
-                throw new Exception("House number can't be null");
-            }
-            var localHouseNumber = houseNumber.Value;
-
             var max = Int32.MinValue;
             foreach (var family in Families)
             {
@@ -107,7 +94,7 @@ namespace Data
             }
 
             adult.Id = max + 1;
-            var familyToUpdate = Get(streetName, localHouseNumber);
+            var familyToUpdate = Get(streetName, houseNumber);
             familyToUpdate.Adults.Add(adult);
             Update(familyToUpdate);
 

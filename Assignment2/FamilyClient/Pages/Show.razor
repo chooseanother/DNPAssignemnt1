@@ -15,19 +15,20 @@ else
     <div>
         <h3>Family living at: @familyToShow.StreetName @familyToShow.HouseNumber</h3>
     </div>
+    <TabControl>
+        <TabPage Text="Adults">
+            <Adults FamilyToShow="@FamilyAddress"/>
+        </TabPage>
+        <TabPage Text="Children">
+            <Children FamilyToShow="@FamilyAddress"/>
+        </TabPage>
+        <TabPage Text="Pets">
+            <Pets FamilyToShow="@FamilyAddress"/>
+        </TabPage>
+    </TabControl>
 }
 
-<TabControl>
-    <TabPage Text="Adults">
-        <Adults FamilyToShow="@FamilyAddress"/>
-    </TabPage>
-    <TabPage Text="Children">
-        <Children FamilyToShow="@FamilyAddress"/>
-    </TabPage>
-    <TabPage Text="Pets">
-        <Pets FamilyToShow="@FamilyAddress"/>
-    </TabPage>
-</TabControl>
+
 
 
 @code {

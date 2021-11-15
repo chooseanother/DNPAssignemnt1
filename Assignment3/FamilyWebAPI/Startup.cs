@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using FamilyWebAPI.Data;
+using FamilyWebAPI.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,8 +30,10 @@ namespace FamilyWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IFamilyDataService, FamilyDataPersistence>();
-            services.AddScoped<IUserService, UserServicePersistence>();
+            services.AddDbContext<FamilyContext>();
+            services.AddDbContext<UserContext>();
+            services.AddScoped<IFamilyDataService, FamilySqliteService>();
+            services.AddScoped<IUserService, UserSqliteService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "FamilyWebAPI", Version = "v1"});

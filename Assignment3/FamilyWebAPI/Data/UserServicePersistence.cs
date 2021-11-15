@@ -11,7 +11,7 @@ namespace Data
 {
     public class UserServicePersistence : IUserService
     {
-        public IList<User> Users { get; private set; }
+        public IList<User> Users { get; set; }
         
         private readonly string usersFile = "users.json";
 

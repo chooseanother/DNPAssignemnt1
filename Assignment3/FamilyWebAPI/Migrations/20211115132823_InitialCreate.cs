@@ -19,12 +19,26 @@ namespace FamilyWebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Interests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Type = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    JobTitle = table.Column<string>(type: "TEXT", nullable: false),
+                    JobTitle = table.Column<string>(type: "TEXT", nullable: true),
                     Salary = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -96,24 +110,27 @@ namespace FamilyWebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Interests",
+                name: "ChildInterest",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Type = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    ChildId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ChildrenId = table.Column<int>(type: "INTEGER", nullable: false),
+                    InterestsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Interests", x => x.Id);
+                    table.PrimaryKey("PK_ChildInterest", x => new { x.ChildrenId, x.InterestsId });
                     table.ForeignKey(
-                        name: "FK_Interests_Children_ChildId",
-                        column: x => x.ChildId,
+                        name: "FK_ChildInterest_Children_ChildrenId",
+                        column: x => x.ChildrenId,
                         principalTable: "Children",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChildInterest_Interests_InterestsId",
+                        column: x => x.InterestsId,
+                        principalTable: "Interests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,14 +174,14 @@ namespace FamilyWebAPI.Migrations
                 column: "JobTitleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChildInterest_InterestsId",
+                table: "ChildInterest",
+                column: "InterestsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Children_FamilyStreetName_FamilyHouseNumber",
                 table: "Children",
                 columns: new[] { "FamilyStreetName", "FamilyHouseNumber" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Interests_ChildId",
-                table: "Interests",
-                column: "ChildId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pets_ChildId",
@@ -183,13 +200,16 @@ namespace FamilyWebAPI.Migrations
                 name: "Adults");
 
             migrationBuilder.DropTable(
-                name: "Interests");
+                name: "ChildInterest");
 
             migrationBuilder.DropTable(
                 name: "Pets");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
+
+            migrationBuilder.DropTable(
+                name: "Interests");
 
             migrationBuilder.DropTable(
                 name: "Children");

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 namespace Models
 {
@@ -12,11 +13,9 @@ namespace Models
         public List<Child> Children { get; set; }
         public List<Pet> Pets { get; set; }
 
-        public Family()
+        public override string ToString()
         {
-            Adults = new List<Adult>();
-            Children = new List<Child>();
-            Pets = new List<Pet>();
+            return JsonSerializer.Serialize(this);
         }
     }
 }

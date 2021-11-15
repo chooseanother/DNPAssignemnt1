@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +49,7 @@ namespace FamilyWebAPI.Controllers
         
         [HttpGet]
         [Route("[controller]")]
-        public async Task<ActionResult<Family>> GetFamily([FromQuery] string? streetName, [FromQuery] int? houseNumber){
+        public async Task<ActionResult<Family>> GetFamily([FromQuery] string streetName, [FromQuery] int houseNumber){
             try
             {
                 var family = await _familyDataService.GetFamilyAsync(streetName,houseNumber);
@@ -65,11 +64,11 @@ namespace FamilyWebAPI.Controllers
         
         [HttpPost]
         [Route("adult")]
-        public async Task<ActionResult<Adult>> AddAdult([FromQuery] string? streetName, [FromQuery] int? houseNumber,[FromBody] Adult Adult)
+        public async Task<ActionResult<Adult>> AddAdult([FromQuery] string streetName, [FromQuery] int houseNumber,[FromBody] Adult adult)
         {
             try
             {
-                var added = await _familyDataService.AddAdultAsync(streetName,houseNumber,Adult);
+                var added = await _familyDataService.AddAdultAsync(streetName,houseNumber,adult);
                 return Created($"/{added.Id}", added);
             }
             catch (Exception e)

@@ -31,6 +31,8 @@ namespace FamilyWebAPI
                 {
                     await SeedFamilies(familyContext);
                 }
+                
+                // some families had conflicts so i tried to add them one at a time
 
                 // IFamilyDataService familyDataService = new FamilyDataPersistence();
                 // var families = await familyDataService.GetFamiliesAsync();

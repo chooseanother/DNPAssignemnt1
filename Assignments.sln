@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyWebAPI", "Assignment2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyClient", "Assignment2\FamilyClient\FamilyClient.csproj", "{0749F1F6-B608-48CF-B4B6-894EC96BF28C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assignment3", "Assignment3", "{E54CEB83-1D98-4FD7-BA58-311BE542CFE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyWebAPI", "Assignment3\FamilyWebAPI\FamilyWebAPI.csproj", "{28010C3C-3555-498B-BAF0-20A8DA2AF65D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0749F1F6-B608-48CF-B4B6-894EC96BF28C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28010C3C-3555-498B-BAF0-20A8DA2AF65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28010C3C-3555-498B-BAF0-20A8DA2AF65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28010C3C-3555-498B-BAF0-20A8DA2AF65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28010C3C-3555-498B-BAF0-20A8DA2AF65D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5D497C21-4988-44CA-941B-C209EF72091F} = {C92FA976-0878-418C-AFA0-BC480BE71B84}
 		{0749F1F6-B608-48CF-B4B6-894EC96BF28C} = {C92FA976-0878-418C-AFA0-BC480BE71B84}
+		{28010C3C-3555-498B-BAF0-20A8DA2AF65D} = {E54CEB83-1D98-4FD7-BA58-311BE542CFE6}
 	EndGlobalSection
 EndGlobal

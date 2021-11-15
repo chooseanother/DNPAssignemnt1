@@ -28,13 +28,13 @@ namespace Data
             }
 
             string result = await responseMessage.Content.ReadAsStringAsync();
-
-            List<Family> todos = JsonSerializer.Deserialize<List<Family>>(result, new JsonSerializerOptions
+            
+            List<Family> families = JsonSerializer.Deserialize<List<Family>>(result, new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
 
-            return todos;
+            return families;
         }
 
 

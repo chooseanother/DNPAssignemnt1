@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
+using FamilyWebAPI.Models;
 
-namespace Data
+namespace FamilyWebAPI.Data
 {
     public interface IFamilyDataService
     {

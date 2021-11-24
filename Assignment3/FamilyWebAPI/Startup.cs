@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data;
 using FamilyWebAPI.Data;
 using FamilyWebAPI.Persistence;
 using Microsoft.AspNetCore.Builder;

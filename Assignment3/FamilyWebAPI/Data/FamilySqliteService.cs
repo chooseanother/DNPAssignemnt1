@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data;
+using FamilyWebAPI.Models;
 using FamilyWebAPI.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
 namespace FamilyWebAPI.Data
 {

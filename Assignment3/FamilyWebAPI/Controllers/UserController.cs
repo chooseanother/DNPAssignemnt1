@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Data;
+using FamilyWebAPI.Data;
+using FamilyWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 namespace FamilyWebAPI.Controllers
 {

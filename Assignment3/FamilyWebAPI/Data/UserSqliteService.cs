@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using FamilyWebAPI.Models;
 using FamilyWebAPI.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
-namespace Data
+namespace FamilyWebAPI.Data
 {
     public class UserSqliteService : IUserService
     {

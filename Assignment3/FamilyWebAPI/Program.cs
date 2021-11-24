@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using Data;
+using FamilyWebAPI.Data;
+using FamilyWebAPI.Models;
 using FamilyWebAPI.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Models;
 
 namespace FamilyWebAPI
 {

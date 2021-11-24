@@ -1,5 +1,5 @@
+using FamilyWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
 namespace FamilyWebAPI.Persistence
 {

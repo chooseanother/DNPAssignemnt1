@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Models
+namespace FamilyWebAPI.Models
 {
     public class Child : Person
     {

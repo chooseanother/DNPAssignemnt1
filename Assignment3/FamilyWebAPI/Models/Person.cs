@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
 
-namespace Models
+namespace FamilyWebAPI.Models
 {
     public class Person
     {

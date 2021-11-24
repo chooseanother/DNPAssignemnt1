@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace FamilyWebAPI.Models
 {
     public class Job
     {

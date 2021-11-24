@@ -1,4 +1,4 @@
-namespace Models
+namespace FamilyWebAPI.Models
 {
     public class Adult : Person
     {

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
-namespace Models
+namespace FamilyWebAPI.Models
 {
     public class Family
     {

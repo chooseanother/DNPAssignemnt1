@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Data;
-using Models;
+using FamilyWebAPI.Models;
 
-namespace Data
+namespace FamilyWebAPI.Data
 {
     public class FamilyDataPersistence : IFamilyDataService
     {
